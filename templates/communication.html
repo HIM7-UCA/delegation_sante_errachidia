@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Délégation Santé Errachidia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+
+   <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(245.59deg, #67017b 0%, #20023f 28.53%, #4c0552 75.52%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        nav {
+            background: none; /* Remove separate background */
+            padding: 10px 20px;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-size: 18px;
+        }
+        .nav-link:hover {
+            color: #ff6f61 !important;
+        }
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 40px;
+            text-align: center;
+        }
+        .hero-text {
+            max-width: 600px;
+        }
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .hero-text p {
+            font-size: 18px;
+            line-height: 1.5;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .news-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        .news-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .news-link {
+            text-decoration: none; /* Remove underline from links */
+            color: inherit; /* Keep the text color as it is */
+            display: block; /* Make the entire block clickable */
+            width: 30%; /* Same as news-item to maintain layout */
+        }
+        .news-item {
+            margin-bottom: 20px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #5c0b04;
+            border-radius: 10px;
+            padding: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden; /* Prevent content overflow */
+        }
+        .news-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+        }
+        .news-item img {
+            width: 100%;
+            height: 200px; /* Set a fixed height */
+            object-fit: cover; /* Ensure the image covers the area without distorting */
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .news-item h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ff6f61;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .news-item p {
+            font-size: 16px;
+            line-height: 1.4;
+            color: #f0e8e8;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        footer {
+            background: none; /* Remove separate background */
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+        footer p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Communication Department</h1>
+            <p>Stay updated with the latest news and events from the Délégation Santé Errachidia.</p>
+        </div>
+    </section>
+    
+    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+        <a href="{{ url_for('add_news') }}" class="btn btn-primary">Add News</a>
+    {% endif %}
+
+    <section class="news-section">
+        <div class="news-row">
+            {% for news in news_items %}
+            <a href="{{ url_for('news_detail', news_id=news.id) }}" class="news-link">
+                <div class="news-item">
+                    <img src="{{ url_for('static', filename='uploads/' ~ news.image) }}" alt="News Image">
+                    <h3>{{ news.title }}</h3>
+                    <p>{{ news.header }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2024 Hicham Mimouni</p>
+    </footer>
+</body>
+</html>

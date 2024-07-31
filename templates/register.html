@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Délégation Santé Errachidia</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+
+   <style>
+        body {
+            background: linear-gradient(245.59deg, #67017b 0%, #20023f 28.53%, #4c0552 75.52%);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .register-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            color: #333; 
+        }
+        .register-container .form-group {
+            margin-bottom: 20px;
+        }
+        .register-container label {
+            font-weight: bold;
+            color: #333; 
+        }
+        .register-container .form-control {
+            border-radius: 5px;
+            color: #333; 
+        }
+        .register-container .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .register-container .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .register-container .error-message {
+            color: #ff0000;
+        }
+        .register-container .register-link {
+            margin-top: 15px;
+            display: block;
+            text-align: center;
+        }
+        .register-container .card-footer {
+            text-align: center;
+        }
+    </style>
+    <script>
+        function validatePassword() {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm_password").value;
+            const errorMessage = document.getElementById("password-error");
+
+            // Critères de base pour la sécurité du mot de passe
+            const lengthValid = password.length >= 8;
+            const containsNumber = /\d/.test(password);
+            const containsSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = "Les mots de passe ne correspondent pas.";
+                return false;
+            }
+
+            if (!lengthValid || !containsNumber || !containsSpecialChar) {
+                errorMessage.textContent = "Le mot de passe doit contenir au moins 8 caractères, un chiffre et un caractère spécial.";
+                return false;
+            }
+
+            errorMessage.textContent = "";
+            return true;
+        }
+    </script>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <div class="register-container card shadow mt-5">
+            <h2 class="text-center">Inscription</h2>
+            <form action="{{ url_for('register') }}" method="post" onsubmit="return validatePassword()">
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur</label>
+                    <input type="text" id="username" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirmer le mot de passe</label>
+                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+                </div>
+                <div id="password-error" class="error-message"></div>
+                {% if error %}
+                <div class="error-message">
+                    <p>{{ error }}</p>
+                </div>
+                {% endif %}
+                <input type="submit" value="S'inscrire" class="btn btn-primary btn-block">
+            </form>
+            <hr>
+            <div class="card-footer">
+                <p class="text-black-50">&copy; HICHAM MIMOUNI 2024/07</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Délégation Santé Errachidia</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+
+    <style>
+        body {
+            background: linear-gradient(245.59deg, #67017b 0%, #20023f 28.53%, #4c0552 75.52%);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .upload-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            color: #333;
+        }
+        .upload-container h1 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        .upload-container .form-group {
+            margin-bottom: 20px;
+        }
+        .upload-container .form-control {
+            border-radius: 5px;
+            color: #333;
+        }
+        .upload-container .btn-primary {
+            background-color: #c610f4;
+            border: none;
+        }
+        .upload-container .btn-primary:hover {
+            background-color: #95038e;
+        }
+        .upload-container a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #b10583;
+            text-decoration: none;
+        }
+        .upload-container a:hover {
+            text-decoration: underline;
+        }
+        .upload-container .card-footer {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <div class="upload-container card shadow">
+            <h1 class="text-center">Répondre à la demande : {{ demand }}</h1>
+            <form action="{{ url_for('respond_request', demand=demand) }}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="file" name="file" class="form-control" required>
+                </div>
+                <input type="submit" value="Télécharger" class="btn btn-primary btn-block">
+            </form>
+            <a href="{{ url_for('hr_home') }}">Retour à l'accueil RH</a>
+            <hr>
+          
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Délégation Santé Errachidia</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+
+  <style>
+        body {
+            background: linear-gradient(245.59deg, #67017b 0%, #20023f 28.53%, #4c0552 75.52%);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            color: #333; 
+        }
+        .login-container .form-group {
+            margin-bottom: 20px;
+        }
+        .login-container label {
+            font-weight: bold;
+            color: #333; 
+        }
+        .login-container .form-control {
+            border-radius: 5px;
+            color: #333; 
+        }
+        .login-container .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .login-container .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .login-container .error-message {
+            color: #ff0000;
+        }
+        .login-container .register-link {
+            margin-top: 15px;
+            display: block;
+            text-align: center;
+        }
+        .login-container .card-footer {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <div class="login-container card shadow mt-5">
+            <h2 class="text-center">Connexion</h2>
+            <form action="{{ url_for('login') }}" method="post">
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur</label>
+                    <input type="text" id="username" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                <input type="submit" value="Se connecter" class="btn btn-primary btn-block">
+            </form>
+            <p class="register-link">Vous n'avez pas de compte ? <a href="{{ url_for('register') }}">Inscrivez-vous ici</a>.</p>
+            {% if error %}
+            <p class="error-message text-center">{{ error }}</p>
+            {% endif %}
+            <hr>
+            <div class="card-footer">
+                <p class="text-black-50">&copy; HICHAM MIMOUNI 2024/07</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

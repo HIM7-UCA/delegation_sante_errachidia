@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Délégation Santé Errachidia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+   <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(245.59deg, #67017b 0%, #20023f 28.53%, #4c0552 75.52%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        nav {
+            padding: 10px 20px;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-size: 18px;
+        }
+        .nav-link:hover {
+            color: #ff6f61 !important;
+        }
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 100px;
+        }
+        .hero-text {
+            max-width: 600px;
+        }
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #ff6f61;
+        }
+        .hero-text p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .organigramme {
+            text-align: center;
+            margin: 40px 0;
+            margin-top: 100px;
+            color: #ff6f61;
+        }
+        .organigramme img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .container h1 {
+            margin-bottom: 20px;
+            color: #fb2468;
+        }
+        .map {
+            margin: 40px 0;
+        }
+        .map h2 {
+            margin-bottom: 20px;
+            color: #fb2468;
+        }
+        footer {
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+        footer p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    
+    <section class="hero">
+        <div class="hero-text">
+            <h1>À propos</h1>
+        </div>
+    </section>
+
+    <div class="container">
+        <h1>La Délégation du Ministère de la Santé à Errachidia</h1>
+        <p>La Délégation du Ministère de la Santé à Errachidia est une institution publique qui joue un rôle clé dans la gestion et la coordination des services de santé dans la province. Elle est responsable de l'administration des établissements de santé locaux, y compris la supervision des hôpitaux, des centres de santé et des programmes de santé publique.</p>
+
+        <div class="organigramme">
+            <h2>Organigramme de la Délégation</h2>
+            <img src="static/organigramme.png" alt="Organigramme de la Délégation">
+        </div>
+
+        <div class="map">
+            <h2>Localisation</h2>
+            <iframe src="https://maps.google.com/maps?q=Délégation+de+Santé+Errachidia&amp;t=&amp;z=15&amp;output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+  
+    <footer>
+        <p>&copy; 2024 Hicham Mimouni</p>
+    </footer>
+</body>
+</html>

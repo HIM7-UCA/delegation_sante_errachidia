@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Délégation Santé Errachidia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+
+  <style>
+        body {
+            background: linear-gradient(135deg, #67017b 0%, #20023f 28%, #4c0552 75%);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2 {
+            color: #f2f2f2;
+            margin-bottom: 20px;
+            align-self: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+        }
+        h2 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid #67017b;
+            padding-bottom: 10px;
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            max-width: 1100px; /* Increased max width */
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #2c2c2c;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left; /* Left-aligned for better readability */
+            color: #ddd;
+        }
+        th {
+            background-color: #67017b;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        td {
+            font-size: 0.95rem;
+        }
+        .demand, .response {
+            color: #ddd;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            background-color: #3c3c3c; /* Neutral dark color */
+            transition: background-color 0.3s;
+            display: inline-block;
+            max-width: 250px; /* Increased max width */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+        .not-responded {
+            background-color: #a04000; /* Distinctive color for "not responded yet" */
+            color: #fff; /* White text for contrast */
+        }
+        .demand:hover, .response:hover {
+            background-color: #8c4b99;
+            color :#f2f2f2;
+        }
+        .center-content {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <h1>Welcome, {{ current_user.username }}</h1>
+    <h2>Requests</h2>
+    <div class="center-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Demand</th>
+                    <th>Response</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                    <tr>
+                        <td>{{ request.user }}</td>
+                        <td><a class="demand" href="{{ url_for('uploaded_file', filename=request.demand) }}">{{ request.demand }}</a></td>
+                        <td>
+                            {% if request.response %}
+                                <a class="response" href="{{ url_for('response_file', filename=request.response) }}">{{ request.response }}</a>
+                            {% else %}
+                                <a class="response not-responded" href="{{ url_for('respond_request', demand=request.demand) }}">Respond</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

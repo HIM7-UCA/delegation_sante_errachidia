@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Délégation Santé Errachidia</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+   
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background: linear-gradient(245.59deg, #67017b 0%, #20023f 28.53%, #4c0552 75.52%);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .button-container button {
+            background: linear-gradient(135deg, #ff7e5f, #f82f39);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s, transform 0.3s;
+            margin: 10px;
+        }
+
+        .button-container button:hover {
+            background: linear-gradient(135deg, #f82f39, #ff7e5f);
+            transform: translateY(-2px);
+        }
+
+        .button-container button:focus {
+            outline: none;
+        }
+
+        .chart-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+            margin-bottom: 30px;
+        }
+
+        .content-section {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        canvas {
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+{% include 'header.html' %}
+<div class="container">
+    <h1>Statistiques de Santé pour Errachidia</h1>
+    <p>Voici les dernières statistiques relatives à la santé pour la province d'Errachidia :</p>
+
+    <div class="button-container">
+        <button onclick="showSection('population')">Croissance de la Population</button>
+        <button onclick="showSection('facilities')">Équipements de Santé</button>
+        <button onclick="showSection('bedOccupancy')">Taux d'Occupation des Lits</button>
+        <button onclick="showSection('diseasePrevalence')">Prévalence des Maladies</button>
+        <button onclick="showSection('immunization')">Couverture Vaccinale</button>
+        <button onclick="showSection('maternalHealth')">Santé Maternelle</button>
+        <button onclick="showSection('childHealth')">Santé Infantile</button>
+        <button onclick="showSection('healthExpenditure')">Dépenses de Santé</button>
+        <button onclick="showSection('mentalHealth')">Santé Mentale</button>
+        <button onclick="showSection('emergencyServices')">Services d'Urgence</button>
+    </div>
+
+    <div id="population" class="content-section">
+        <p>La croissance de la population montre l'augmentation de la population d'Errachidia au fil des ans.</p>
+        <div class="chart-container">
+            <canvas id="populationGrowthChart"></canvas>
+        </div>
+    </div>
+
+    <div id="facilities" class="content-section">
+        <p>Les équipements de santé incluent les hôpitaux, cliniques, pharmacies et centres de santé.</p>
+        <div class="chart-container">
+            <canvas id="healthFacilitiesChart"></canvas>
+        </div>
+    </div>
+    
+    <div id="bedOccupancy" class="content-section">
+        <p>Le taux d'occupation des lits montre la proportion de lits occupés dans les établissements de santé.</p>
+        <div class="chart-container">
+            <canvas id="bedOccupancyChart"></canvas>
+        </div>
+    </div>
+
+    <div id="diseasePrevalence" class="content-section">
+        <p>La prévalence des maladies montre la proportion de patients souffrant de différentes maladies.</p>
+        <div class="chart-container">
+            <canvas id="diseasePrevalenceChart"></canvas>
+        </div>
+    </div>
+    
+    <div id="immunization" class="content-section">
+        <p>La couverture vaccinale montre le pourcentage de la population ayant reçu les vaccins recommandés.</p>
+        <div class="chart-container">
+            <canvas id="immunizationChart"></canvas>
+        </div>
+    </div>
+    
+    <div id="maternalHealth" class="content-section">
+        <p>La santé maternelle reflète les taux de santé et de bien-être des femmes pendant et après la grossesse.</p>
+        <div class="chart-container">
+            <canvas id="maternalHealthChart"></canvas>
+        </div>
+    </div>
+    
+    <div id="childHealth" class="content-section">
+        <p>La santé infantile évalue les taux de santé et de bien-être des enfants.</p>
+        <div class="chart-container">
+            <canvas id="childHealthChart"></canvas>
+        </div>
+    </div>
+    
+    <div id="healthExpenditure" class="content-section">
+        <p>Les dépenses de santé montrent les investissements financiers dans les soins de santé en DH.</p>
+        <div class="chart-container">
+            <canvas id="healthExpenditureChart"></canvas>
+        </div>
+    </div>
+    
+    <div id="mentalHealth" class="content-section">
+        <p>La santé mentale indique la proportion de la population souffrant de troubles mentaux.</p>
+        <div class="chart-container">
+            <canvas id="mentalHealthChart"></canvas>
+        </div>
+    </div>
+    
+    <div id="emergencyServices" class="content-section">
+        <p>Les services d'urgence montrent le nombre de cas traités par les services d'urgence.</p>
+        <div class="chart-container">
+            <canvas id="emergencyServicesChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showSection(sectionId) {
+        var sections = document.getElementsByClassName('content-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+        void document.getElementById(sectionId).offsetWidth;
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    function initCharts() {
+        new Chart(document.getElementById('populationGrowthChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Croissance de la Population',
+                    data: [193586, 195818, 198030, 200210, 202349, 204435, 206458, 208407, 210274, 212058, 213756], // Données pour Errachidia
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('healthFacilitiesChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Hôpitaux', 'Cliniques', 'Pharmacies', 'Centres de Santé'],
+                datasets: [{
+                    label: 'Équipements de Santé',
+                    data: [3, 10, 15, 7], // Données pour Errachidia
+                    backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('bedOccupancyChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Taux d\'Occupation des Lits',
+                    data: [70, 72, 75, 77, 80, 78, 76, 74, 72, 71, 70, 69], // Données pour Errachidia
+                    backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('diseasePrevalenceChart').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: ['Diabète', 'Hypertension', 'Maladies Respiratoires', 'Autres'],
+                datasets: [{
+                    label: 'Prévalence des Maladies',
+                    data: [25, 30, 20, 25], // Données pour Errachidia
+                    backgroundColor: ['#e57373', '#f06292', '#ba68c8', '#64b5f6']
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('immunizationChart').getContext('2d'), {
+            type: 'radar',
+            data: {
+                labels: ['BCG', 'Polio', 'Hépatite B', 'Rougeole', 'Vaccin Anti-tétanique'],
+                datasets: [{
+                    label: 'Couverture Vaccinale',
+                    data: [90, 85, 80, 70, 75], // Données pour Errachidia
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('maternalHealthChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Accouchements', 'Consultations prénatales', 'Visites postnatales'],
+                datasets: [{
+                    label: 'Santé Maternelle',
+                    data: [1200, 1800, 1500], // Données pour Errachidia
+                    backgroundColor: 'rgba(255, 205, 86, 0.6)',
+                    borderColor: 'rgba(255, 205, 86, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('childHealthChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Santé Infantile',
+                    data: [15, 12, 13, 11, 9, 10, 8, 7, 6, 5, 4], // Données pour Errachidia
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('healthExpenditureChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['2020', '2021', '2022', '2023'],
+                datasets: [{
+                    label: 'Dépenses de Santé',
+                    data: [500000, 550000, 600000, 650000], // Données pour Errachidia
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('mentalHealthChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Troubles Dépressifs', 'Troubles Anxieux', 'Autres'],
+                datasets: [{
+                    label: 'Santé Mentale',
+                    data: [35, 40, 25], // Données pour Errachidia
+                    backgroundColor: ['#ff9f40', '#ff6384', '#36a2eb']
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('emergencyServicesChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Services d\'Urgence',
+                    data: [100, 120, 110, 130, 140, 150, 160, 170, 180, 190, 200, 210], // Données pour Errachidia
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initCharts);
+</script>
+</body>
+</html>

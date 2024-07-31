@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Délégation Santé Errachidia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(245.59deg, #67017b 0%, #20023f 28.53%, #4c0552 75.52%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        nav {
+            background: none;
+            padding: 10px 20px;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-size: 18px;
+        }
+        .nav-link:hover {
+            color: #ff6f61 !important;
+        }
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 40px;
+            text-align: center;
+        }
+        .hero-text {
+            max-width: 600px;
+        }
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color:#ff6f61;
+        }
+        .hero-text p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        .gallery-item {
+            text-align: center;
+            margin: 10px;
+        }
+        .gallery-item img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .gallery-item img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+        }
+        .gallery-item p {
+            margin-top: 20px;
+            font-size: 16px;
+            color: rgb(246, 206, 236);
+        }
+        footer {
+            background: none;
+            padding: 20px;
+            text-align: center;
+        }
+        footer p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Délégation Santé Errachidia</h1>
+            <p>Bienvenue sur le site web de la Délégation Provinciale de Santé d'Errachidia, ici où tout est proche de vous.</p>
+        </div>
+    </section>
+    <section class="gallery">
+        <div class="gallery-item">
+            <a href="{{ url_for('hr_home') }}"><img src="{{ url_for('static', filename='image1.jpg') }}" alt="Image 1" data-hover-text="Ressources Humaines"></a>
+            <p>Accueil</p>
+        </div>
+        <div class="gallery-item">
+            <a href="{{ url_for('statistics') }}"><img src="{{ url_for('static', filename='image2.jpg') }}" alt="Image 2" data-hover-text="Statistiques"></a>
+            <p>Statistiques</p>
+        </div>
+        <div class="gallery-item">
+            <a href="{{ url_for('communication') }}"><img src="{{ url_for('static', filename='image3.jpg') }}" alt="Image 3" data-hover-text="Communication"></a>
+            <p>Communication</p>
+        </div>
+        <div class="gallery-item">
+            <a href="{{ url_for('about') }}"><img src="{{ url_for('static', filename='image4.jpg') }}" alt="Image 4" data-hover-text="À propos"></a>
+            <p>À propos</p>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2024 Hicham Mimouni</p>
+    </footer>
+</body>
+</html>
